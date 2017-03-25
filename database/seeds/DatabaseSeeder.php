@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Widget;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,5 +13,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        Widget::unguard();
+
+        Widget::truncate();
+
+        factory(Widget::class)->create();
+
+        Widget::reguard();
     }
 }

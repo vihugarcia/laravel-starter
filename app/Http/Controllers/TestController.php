@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exceptions\EmailNotProvidedException;
 
 class TestController extends Controller
 {
@@ -13,9 +14,10 @@ class TestController extends Controller
      */
     public function index()
     {
-        $beatles = ['John', 'Paul', 'George', 'Ringo'];
+        /*$beatles = ['John', 'Paul', 'George', 'Ringo'];
 
-        return view('test.index', compact('beatles'));
+        return view('test.index', compact('beatles'));*/
+        throw new EmailNotProvidedException('facebook');
     }
 
     /**

@@ -179,6 +179,8 @@ return [
 
         Creativeorange\Gravatar\GravatarServiceProvider::class,
 
+        Socieboy\Alerts\AlertServiceProvider::class,
+
     ],
 
     /*
