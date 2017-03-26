@@ -29,8 +29,14 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Date Created</th>
-                <th>Edit</th>
-                <th>Delete</th>
+
+                @if(Auth::user()->adminOrCurrentUserOwns($widget))
+
+                    <th>Edit</th>
+
+                    <th>Delete</th>
+
+                @endif
 
             </tr>
             </thead>
@@ -42,23 +48,31 @@
                         {{ $widget->name }}</a></td>
                 <td>{{ $widget->created_at }}</td>
 
-                <td> <a href="/widget/{{ $widget->id }}/edit">
+                @if(Auth::user()->adminOrCurrentUserOwns($widget))
 
-                        <button type="button" class="btn btn-default">Edit</button></a></td>
+                    <td> <a href="/widget/{{ $widget->id }}/edit">
 
-                <td>
+                            <button type="button" class="btn btn-default">
 
-                    <div class="form-group">
+                                Edit
 
-                        <form class="form" role="form" method="POST" action="{{ url('/widget/'. $widget->id) }}">
-                            <input type="hidden" name="_method" value="delete">
-                            {{ csrf_field() }}
+                            </button></a></td>
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete">
+                    <td>
 
-                        </form>
-                    </div>
-                </td>
+                        <div class="form-group">
+
+                            <form class="form" role="form" method="POST" action="{{ url('/widget/'. $widget->id) }}">
+                                <input type="hidden" name="_method" value="delete">
+                                {{ csrf_field() }}
+
+                                <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete">
+
+                            </form>
+                        </div>
+                    </td>
+
+                @endif
 
             </tr>
             </tbody>
@@ -74,11 +88,7 @@
         function ConfirmDelete()
         {
             var x = confirm("Are you sure you want to delete?");
-            if (x){
-                return true;
-            } else {
-                return false;
-            }
+            return x;
         }
     </script>
 @endsection

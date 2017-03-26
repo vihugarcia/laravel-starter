@@ -19,6 +19,14 @@ Auth::routes();
 
 Route::get('/', 'PagesController@index');
 
+Route::get('privacy', 'PagesController@privacy');
+
+Route::get('terms-of-service', 'PagesController@terms');
+
+// admin route
+
+Route::get('/admin', 'AdminController@index')->name('admin');
+
 // test route
 
 Route::get('test','TestController@index');

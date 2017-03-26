@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 use App\Widget;
 use Redirect;
 use Illuminate\Support\Facades\Auth;
+use App\Http\AuthTraits\OwnsRecord;
+use App\Exceptions\UnauthorizedException;
 
 class WidgetController extends Controller
 {
+    use OwnsRecord;
+
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']] );
+        $this->middleware('auth', ['except' => 'index'] );
+        $this->middleware('admin', ['except' => ['index', 'show']] );
     }
 
     /**
@@ -90,6 +95,10 @@ class WidgetController extends Controller
      */
     public function edit(Widget $widget)
     {
+        if ( ! $this->adminOrCurrentUserOwns($widget)){
+            throw new UnauthorizedException;
+        }
+
         return view('widget.edit', compact('widget'));
     }
 
@@ -106,6 +115,10 @@ class WidgetController extends Controller
             'name' => 'required|string|max:40|unique:widgets,name,' .$widget->id
 
         ]);
+
+        if ( ! $this->adminOrCurrentUserOwns($widget)){
+            throw new UnauthorizedException;
+        }
 
         $slug = str_slug($request->name, "-");
 
@@ -126,6 +139,12 @@ class WidgetController extends Controller
      */
     public function destroy($id)
     {
+        $widget = Widget::findOrFail($id);
+
+        if ( ! $this->adminOrCurrentUserOwns($widget)){
+            throw new UnauthorizedException;
+        }
+
         Widget::destroy($id);
 
         alert()->overlay('Attention!', 'You deleted a widget', 'error');
