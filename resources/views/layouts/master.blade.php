@@ -14,6 +14,8 @@
 
 <body role="document">
 
+@include('layouts.facebook')
+
 @include('layouts.nav')
 
 
