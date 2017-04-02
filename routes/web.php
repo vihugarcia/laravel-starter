@@ -38,6 +38,9 @@ Route::post('register', 'Auth\AuthController@register');
 Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
 
+// Marketing routes
+Route::resource('marketing-image', 'MarketingImageController');
+
 // Profile routes
 Route::get('show-profile', 'ProfileController@showProfileToUser')->name('show-profile');
 Route::get('determine-profile-route', 'ProfileController@determineProfileRoute')->name('determine-profile-route');

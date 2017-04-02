@@ -1,4 +1,6 @@
 <!-- Styles -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <link href="/css/app.css" rel="stylesheet">
 
 <!--sweet alert -->
@@ -22,5 +24,9 @@
 
     .circ:hover{
         box-shadow: 0 0 0 3px #f00;
+    }
+
+    .carousel-inner img {
+        margin: auto;
     }
 </style>

@@ -30,11 +30,15 @@
                     </li>
 
                 @endif
-                <li class="dropdown"><a href="#" class="dropdown-toggle"
-                                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">Content <span class="caret"></span></a>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false">
+                        Content <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/widget">Widgets</a></li>
+                        @if (Auth::check() && Auth::user()->isAdmin())
+                            <li><a href="/marketing-image">Marketing Images</a></li>
+                        @endif
                     </ul>
                 </li>
                 @if (Auth::check())
