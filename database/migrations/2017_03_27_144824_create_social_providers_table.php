@@ -2,8 +2,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-class CreateProfilesTable extends Migration
+class CreateSocialProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +11,12 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('social_providers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->string('first_name', 60);
-            $table->string('last_name', 60);
-            $table->date('birthdate');
-            $table->boolean('gender');
+            $table->integer('user_id')->unsigned()->index();
+            $table->string('source');
+            $table->string('source_id')->unique()->index();
+            $table->string('avatar');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('social_providers');
     }
 }

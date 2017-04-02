@@ -38,11 +38,22 @@ Route::post('register', 'Auth\AuthController@register');
 Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
 
+// Profile routes
+Route::get('show-profile', 'ProfileController@showProfileToUser')->name('show-profile');
+Route::get('determine-profile-route', 'ProfileController@determineProfileRoute')->name('determine-profile-route');
+Route::resource('profile', 'ProfileController');
+
+// Settings routes
+Route::get('settings', 'SettingsController@edit');
+Route::post('settings', 'SettingsController@update')->name('user-update');
+
 // Terms route
 Route::get('terms-of-service', 'PagesController@terms');
 
 // test route
 Route::get('test', 'TestController@index')->middleware(['auth', 'throttle']);
+
+Route::resource('user', 'UserController');
 
 // Widget routes
 Route::get('widget/create',  'WidgetController@create')->name('widget.create');
