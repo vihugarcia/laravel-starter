@@ -62,3 +62,7 @@ Route::resource('user', 'UserController');
 Route::get('widget/create',  'WidgetController@create')->name('widget.create');
 Route::get('widget/{id}-{slug?}', 'WidgetController@show')->name('widget.show');
 Route::resource('widget', 'WidgetController', ['except' => ['show', 'create']]);
+
+// Api Routes
+Route::get('api/widget-data', 'ApiController@widgetData');
+Route::get('api/marketing-image-data', 'ApiController@marketingImageData');
