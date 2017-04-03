@@ -16,6 +16,8 @@
 
 @include('layouts.facebook')
 
+<div id="app">
+
 @include('layouts.nav')
 
 
@@ -28,6 +30,8 @@
     @include('layouts.bottom')
 
 </div> <!-- /container -->
+
+</div>
 
 @include('layouts.scripts')
 

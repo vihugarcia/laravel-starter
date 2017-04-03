@@ -5,8 +5,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Example Component</div>
 
-                    <div class="panel-body">
-                        I'm an example component!
+                    <div id="name-form">
+                        <label for="name">Enter name:</label>
+                        <input type="text" v-model="name" id="name" name="name" />
+                        <p>{{ name }}</p>
+                        <button @click="clearData()"class="btn btn-default">
+                            Clear</button>
                     </div>
                 </div>
             </div>
@@ -15,9 +19,24 @@
 </template>
 
 <script>
+    var givenName = 'Bill';
     export default {
+        data : function(){
+            return {
+                name: ''
+            }
+        },
+        methods : {
+            loadData : function(){
+                this.name = givenName;
+            },
+            clearData : function(){
+                this.name ='';
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            this.loadData();
+            console.log('Component ready.')
         }
     }
 </script>
