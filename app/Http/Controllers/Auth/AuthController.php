@@ -1,18 +1,16 @@
 <?php
 namespace App\Http\Controllers\Auth;
-
+use App\Events\RegistrationCompleted;
 use App\Exceptions\NoActiveAccountException;
 use App\Http\AuthTraits\Social\ManagesSocialAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Http\Requests;
 use Socialite;
-
+use Illuminate\Auth\Events\Registered;
 class AuthController extends RegisterController
 {
     use AuthenticatesUsers, ManagesSocialAuth;
-
     protected $redirectTo = '/';
     /**
      * Create a new controller instance.
@@ -26,7 +24,6 @@ class AuthController extends RegisterController
             'handleProviderCallback']
         ]);
     }
-
     private function checkStatusLevel()
     {
         if ( ! Auth::user()->isActiveStatus()) {
@@ -34,7 +31,6 @@ class AuthController extends RegisterController
             throw new NoActiveAccountException;
         }
     }
-
     public function redirectPath()
     {
         if (Auth::user()->isAdmin()){
@@ -42,7 +38,6 @@ class AuthController extends RegisterController
         }
         return property_exists($this, 'redirectTo') ? $this->redirectTo : '/';
     }
-
     /**
      * Handle a login request to the application.
      *
@@ -68,5 +63,14 @@ class AuthController extends RegisterController
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
+    }
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+        $this->guard()->login($user);
+        event(new RegistrationCompleted($user));
+        return $this->registered($request, $user) ?: redirect($this->redirectPath());
+
     }
 }
